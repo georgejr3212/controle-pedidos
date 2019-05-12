@@ -1,16 +1,17 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
+
 import { IonicModule } from '@ionic/angular';
 
+import { CategoriasPage } from './categorias.page';
 import { FormComponent } from './form/form.component';
-import { ItensPage } from './itens.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: ItensPage
+    component: CategoriasPage
   }
 ];
 
@@ -19,9 +20,9 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes),
+    RouterModule.forChild(routes)
   ],
-  declarations: [ItensPage, FormComponent],
+  declarations: [CategoriasPage, FormComponent],
   entryComponents: [FormComponent]
 })
-export class ItensPageModule { }
+export class CategoriasPageModule {}

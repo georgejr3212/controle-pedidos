@@ -1,3 +1,69 @@
-<p>
-  form works!
-</p>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Item</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button (click)="onSave()">Salvar</ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button color="dark" (click)="onCancel()">Cancelar</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div class="form-content">
+    <ion-list>
+
+      <ion-item>
+        <ion-label stacked>Descrição</ion-label>
+        <ion-input type="text" [(ngModel)]="descricao"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>Preço</ion-label>
+        <ion-input type="text" [(ngModel)]="preco"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label stacked>Categoria</ion-label>
+        <ion-select [(ngModel)]="categoriaId">
+          <ion-select-option *ngFor="let cat of categorias" [value]="cat.id">{{ cat.descricao.toUpperCase() }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <!-- <ion-label stacked>Ativo[1]/Inativo[2]/Indisponível[3]</ion-label>
+        <ion-input type="text" [(ngModel)]="ativo"></ion-input> -->
+        <ion-list>
+          <ion-radio-group [(ngModel)]="ativo">
+            <ion-list-header>
+              Status do Item
+            </ion-list-header>
+
+            <ion-item>
+              <ion-label>Ativo</ion-label>
+              <ion-radio value="1"></ion-radio>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Inativo</ion-label>
+              <ion-radio value="0"></ion-radio>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Indisponível</ion-label>
+              <ion-radio value="2"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-list>
+      </ion-item>
+
+    </ion-list>
+  </div>
+
+</ion-content>

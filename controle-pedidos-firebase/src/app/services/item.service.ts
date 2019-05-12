@@ -1,92 +1,59 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+
+import { Categoria } from '../models/Categoria';
 import { Item } from '../models/Item';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ItemService {
-  private PATH = 'item/';
+
+  private PATH = 'categoria/';
 
   constructor(private afs: AngularFirestore) { }
 
-  getAll(): Observable<Item[]> {
-    return this.afs.collection(this.PATH)
-      .snapshotChanges()
-      .pipe(
-        map((actions: any) => {
-          return actions.map((action: any) => {
-            const item = new Item();
-            item.id = action.payload.doc.id;
-            item.descricao = action.payload.doc.data().descricao;
-            item.preco = action.payload.doc.data().preco;
-            item.ativo = action.payload.doc.data().ativo;
+  public async cadastraItem(categoria?: Categoria) {
+    const [newItem] = [...categoria.itens];
+    delete newItem.id;
+    const catId = categoria.id;
+    const docRef = this.afs.firestore.collection(this.PATH)
+      .doc(catId);
 
-            return item;
+    return this.afs.firestore.runTransaction(transaction => {
+      return transaction.get(docRef).then(snapshot => {
+        const largerArray = snapshot.get('itens') || [];
+        const item = { id: this.afs.createId(), ...newItem };
+        largerArray.push(item);
+        transaction.update(docRef, 'itens', largerArray);
+      });
+    });
+
+  }
+
+  public async atualizaItem(categoria: Categoria) {
+    const [newItem] = [...categoria.itens];
+    const catId = categoria.id;
+    const docRef = this.afs.firestore.collection(this.PATH)
+      .doc(catId)
+
+    return this.afs.firestore.runTransaction(transaction => {
+      return transaction.get(docRef).then(snapshot => {
+        const largerArray = snapshot.get('itens') || [];
+        if (largerArray) {
+          const res = largerArray.map((r: Item) => {
+            if (r.id === newItem.id) {
+              r.descricao = newItem.descricao;
+              r.ativo = newItem.ativo;
+              r.preco = newItem.preco;
+            }
+            return r;
           });
-        })
-      );
-  }
 
-  /*
- * Insere uma item no banco
- */
-  public cadastraItem(item: Item) {
+          transaction.update(docRef, 'itens', res);
 
-    let t = {
-      descricao: item.descricao,
-      preco: item.preco,
-      ativo: item.ativo
-    };
-
-    return new Promise((resolve, reject) => {
-      this.afs.collection<any>(this.PATH)
-        .add(t)
-        .then(() => resolve())
-        .catch((e) => reject(e));
-    });
-
-  }
-
-
-  /*
-   * Atualiza o status de uma item
-   */
-  public atualizaItem(item: Item) {
-
-    let t = { "descricao": item.descricao };
-
-    return new Promise((resolve, reject) => {
-      this.afs.doc<Item>(this.PATH + item.id)
-        .update(t)
-        .then(() => resolve())
-        .catch((e) => reject(e));
-    });
-
-  }
-
-
-  /*
-   * Remove as items concluídas
-   */
-  public removeConcluidas() {
-
-    return new Promise((resolve, reject) => {
-
-      this.afs.collection<any>(this.PATH)
-        .get()
-        .subscribe(
-          rset => {
-            rset.forEach(r => {
-              this.afs.doc<Item>(this.PATH + r.id).delete();
-            });
-
-            resolve();
-          },
-          error => reject(error));
-
+        }
+      });
     });
   }
 }

@@ -1,0 +1,24 @@
+<ion-content padding>
+  <div class="form-content">
+    <ion-list *ngFor="let cat of (categorias$ | async)">
+      <ion-item-sliding>
+        <ion-item (click)="openModalItem('edit', cat)">
+          {{ cat.descricao.toUpperCase() }}
+        </ion-item>
+        <ion-item-options side="end">
+          <button ion-button color="primary" (click)="onRemove(cat.id)">
+            <ion-icon name="trash" style="font-size: 32px"></ion-icon>
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+  </div>
+  <ng-template #noItems>
+    Não existem itens cadastrados nesta categoria
+  </ng-template>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button expand="full" (click)="openModalItem('create')">Adicionar</ion-button>
+  </ion-toolbar>
+</ion-footer>

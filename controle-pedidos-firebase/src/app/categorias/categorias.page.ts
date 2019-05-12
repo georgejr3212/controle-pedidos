@@ -1,41 +1,35 @@
 import { Component, OnInit } from '@angular/core';
-import { CategoriaService } from '../services/categoria.service';
 import { Observable } from 'rxjs';
 import { Categoria } from '../models/Categoria';
 import { ModalController } from '@ionic/angular';
+import { CategoriaService } from '../services/categoria.service';
 import { FormComponent } from './form/form.component';
-import { Item } from '../models/Item';
 
 @Component({
-  selector: 'app-itens',
-  templateUrl: './itens.page.html',
-  styleUrls: ['./itens.page.scss'],
+  selector: 'app-categorias',
+  templateUrl: './categorias.page.html',
+  styleUrls: ['./categorias.page.scss'],
 })
-export class ItensPage implements OnInit {
-
+export class CategoriasPage implements OnInit {
   categorias$: Observable<Categoria[]>;
-  itensCategoria$: Observable<any>;
-  cats;
-  itens = [];
+
   constructor(private modalController: ModalController, private categoriaService: CategoriaService) { }
 
   ngOnInit() {
     this.categorias$ = this.categoriaService.getAll();
-    this.categorias$.subscribe(res => this.cats = res);
   }
 
-  async openModalItem(operation, data?, categoriaId?) {
+  async openModalItem(operation: string, categoria?: string) {
     const modal = await this.modalController.create({
       component: FormComponent,
-      componentProps: { categorias: this.cats, operation, item: data, categoriaId }
+      componentProps: { categoria, operation }
     });
 
     return await modal.present();
   }
 
-  onRemoveInativos(itens) {
-    return itens.filter(res => res.ativo !== '0');
+  onRemove(id: string) {
+    this.categoriaService.removeCategoria(id);
   }
-
 
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { Categoria } from '../models/Categoria';
 
 @Injectable({
@@ -21,7 +22,7 @@ export class CategoriaService {
             const categoria = new Categoria();
             categoria.id = action.payload.doc.id;
             categoria.descricao = action.payload.doc.data().descricao;
-
+            categoria.itens = action.payload.doc.data().itens;
             return categoria;
           });
         })
@@ -35,7 +36,7 @@ export class CategoriaService {
 
     let t = {
       descricao: categoria.descricao,
-      categoria: {...categoria.itens },
+      itens: [],
     };
 
     return new Promise((resolve, reject) => {
@@ -46,7 +47,6 @@ export class CategoriaService {
     });
 
   }
-
 
   /*
    * Atualiza o status de uma categoria
@@ -68,7 +68,7 @@ export class CategoriaService {
   /*
    * Remove as categorias concluídas
    */
-  public removeConcluidas() {
+  public removeCategoria(id: string) {
 
     return new Promise((resolve, reject) => {
 
@@ -77,7 +77,7 @@ export class CategoriaService {
         .subscribe(
           rset => {
             rset.forEach(r => {
-              this.afs.doc<Categoria>(this.PATH + r.id).delete();
+              this.afs.doc<Categoria>(this.PATH + id).delete();
             });
 
             resolve();
