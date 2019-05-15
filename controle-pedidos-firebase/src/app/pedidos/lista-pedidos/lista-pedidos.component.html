@@ -1,0 +1,39 @@
+<ion-content padding>
+  <div class="form-content">
+    <ion-card color="tertiary" *ngFor="let pedido of (pedidos$ | async)">
+      <ion-card-header>
+        <ion-card-subtitle>Detalhes do Pedido</ion-card-subtitle>
+        <ion-card-subtitle>Comprador: {{ pedido?.comprador }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-select (ionChange)="onChangeSituacaoPedido(pedido.id, $event.target.value)">
+        <ion-select-option selected>Alterar Situação do Pedido</ion-select-option>
+        <ion-select-option *ngIf="user === 'admin' && pedido.status === 'Registrado'" value="Confirmado">Confirmar
+          Pedido</ion-select-option>
+        <ion-select-option value="Em Preparação" *ngIf="pedido.status === 'Confirmado'">Preparar Pedido
+        </ion-select-option>
+        <ion-select-option value="Pronto" *ngIf="pedido.status === 'Em Preparação'">Pedido Pronto</ion-select-option>
+        <ion-select-option *ngIf="user === 'admin' && pedido.status === 'Pronto'" value="Em entrega">Entregar Pedido
+        </ion-select-option>
+        <ion-select-option *ngIf="user === 'admin' && pedido.status === 'Em entrega'" value="Finalizado">Finalizar
+          Pedido</ion-select-option>
+        <ion-select-option *ngIf="user === 'admin'" value="Cancelado">Cancelar Pedido</ion-select-option>
+      </ion-select>
+      <ion-card-content>
+        <ion-header>
+          <ion-label class="font-size-12">Status do Pedido</ion-label>
+          <div>{{ pedido?.status.toUpperCase() }}</div>
+        </ion-header>
+
+        <ion-item lines="none" *ngFor="let item of pedido?.itens">
+          <p class="font-size-12">{{ item?.descricao }} : {{ item?.preco | currency: 'R$ ':true }} : Qtd {{ item?.qtd }}
+          </p>
+        </ion-item>
+
+        <ion-chip style="margin-top: 20px;">
+          <ion-label style="color: white">Total {{ pedido?.total | currency: 'R$ ':true }}</ion-label>
+        </ion-chip>
+
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

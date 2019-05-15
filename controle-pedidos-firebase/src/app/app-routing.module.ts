@@ -1,18 +1,19 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './utils/auth.guard';
 
 // import { AuthGuard } from './utils/auth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'itens', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   {
     path: 'home',
-    // canActivate: [AuthGuard],
     loadChildren: './home/home.module#HomePageModule'
   },
-  { path: 'itens', loadChildren: './itens/itens.module#ItensPageModule' },
-  { path: 'categorias', loadChildren: './categorias/categorias.module#CategoriasPageModule' },
+  { path: 'itens', canActivate: [AuthGuard], data: { roles: ['admin'] }, loadChildren: './itens/itens.module#ItensPageModule' },
+  { path: 'categorias', canActivate: [AuthGuard], data: { roles: ['admin'] }, loadChildren: './categorias/categorias.module#CategoriasPageModule' },
   { path: 'pedidos', loadChildren: './pedidos/pedidos.module#PedidosPageModule' },
+  { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
 ];
 
 @NgModule({

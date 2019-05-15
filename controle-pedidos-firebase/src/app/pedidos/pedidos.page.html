@@ -1,9 +1,46 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>pedidos</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content padding>
+  <div class="form-content">
+    <ion-list *ngFor="let cat of (categorias$ | async)">
+      <ion-list-header>
+        {{ cat.descricao.toUpperCase() }}
+      </ion-list-header>
 
-<ion-content>
-  Pedidos
+      <ion-card>
+        <ion-item lines="none" *ngFor="let item of onFieldQtdAdd(cat.itens)">
+          <div class="font-size-12" padding *ngIf="item.ativo !== '0'; else semItens">
+            <div *ngIf="item.ativo === '2'">
+              <span style="color: red; text-decoration: line-through">
+                {{ item.descricao }}
+                {{ item.preco | currency:'BRL':true }}
+              </span>
+            </div>
+            <div *ngIf="item.ativo === '1'">
+              {{ item.descricao }}
+              {{ item.preco | currency:'BRL':true }}
+              <ion-buttons>
+                <ion-button (click)="onRemove(item)">
+                  <ion-icon name="remove"></ion-icon>
+                </ion-button>
+                {{ findQtd(item) }}
+                <ion-button (click)="onAdd(item)">
+                  <ion-icon name="add"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+            </div>
+          </div>
+        </ion-item>
+      </ion-card>
+
+    </ion-list>
+  </div>
+
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button expand="full" *ngIf="itensPedido.length" (click)="finalizarPedido()">Finalizar Pedido</ion-button>
+  </ion-toolbar>
+</ion-footer>
+
+<ng-template #semItens>
+  <p class="font-size-item-12" padding>Sem itens disponíveis nesta categoria</p>
+</ng-template>

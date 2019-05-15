@@ -1,5 +1,7 @@
 {
   "name": "controle-pedidos-firebase",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

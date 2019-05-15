@@ -3,4 +3,5 @@ export class Item {
   descricao: string;
   preco: number;
   ativo: number;
+  qtd?: number;
 }

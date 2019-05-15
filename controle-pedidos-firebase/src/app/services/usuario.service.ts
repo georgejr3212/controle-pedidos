@@ -93,7 +93,7 @@ export class UsuarioService {
             usuario.password = action.payload.doc.data().password;
 
             return usuario;
-          });
+          })[0];
         })
       );
   }

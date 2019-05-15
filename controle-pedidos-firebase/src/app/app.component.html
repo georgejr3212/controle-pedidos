@@ -12,7 +12,6 @@
   </ion-header>
   <ion-split-pane contentId="menu-content">
 
-
     <ion-menu side="start" menuId="custom">
       <ion-header>
         <ion-toolbar color="tertiary">
@@ -23,7 +22,8 @@
         <ion-list>
           <ion-item [routerLink]="['/itens']">Itens</ion-item>
           <ion-item [routerLink]="['/categorias']">Categorias</ion-item>
-          <ion-item [routerLink]="['/pedidos']">Pedidos</ion-item>
+          <ion-item [routerLink]="['/pedidos/montar-pedido']">Montar Pedido</ion-item>
+          <ion-item [routerLink]="['/pedidos/lista-pedidos']">Lista de Pedidos</ion-item>
         </ion-list>
       </ion-content>
     </ion-menu>

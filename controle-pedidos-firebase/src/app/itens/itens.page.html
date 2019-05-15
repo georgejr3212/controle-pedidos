@@ -4,21 +4,31 @@
       <ion-list-header>
         {{ cat.descricao.toUpperCase() }}
       </ion-list-header>
-      <ion-item *ngFor="let item of onRemoveInativos(cat.itens)" (click)="openModalItem('edit', item, cat.id)">
-        <div *ngIf="item.ativo === '2'">
-          <span style="color: red; text-decoration: line-through">
+      <ion-card>
+        <ion-item lines="none" class="font-size-12" *ngFor="let item of cat.itens"
+          (click)="openModalItem('edit', item, cat.id)">
+          <div *ngIf="item.ativo === '2'">
+            <span style="color: red; text-decoration: line-through">
+              {{ item.descricao }}
+              {{ item.preco | currency:'BRL':true }}
+            </span>
+          </div>
+
+          <div *ngIf="item.ativo === '0'">
+            <span style="color: grey; text-decoration: line-through">
+              {{ item.descricao }}
+              {{ item.preco | currency:'BRL':true }}
+            </span>
+          </div>
+
+          <div *ngIf="item.ativo === '1'">
             {{ item.descricao }}
             {{ item.preco | currency:'BRL':true }}
-          </span>
-        </div>
-
-        <div *ngIf="item.ativo === '1'">
-          {{ item.descricao }}
-          {{ item.preco | currency:'BRL':true }}
-        </div>
+          </div>
 
 
-      </ion-item>
+        </ion-item>
+      </ion-card>
 
     </ion-list>
   </div>
