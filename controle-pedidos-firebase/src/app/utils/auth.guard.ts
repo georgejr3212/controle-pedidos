@@ -11,7 +11,10 @@ export class AuthGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     let user: any = localStorage.getItem('user');
-    if (!user) { return; }
+    if (!user) {
+      this.router.navigate(['/login']);
+      return;
+    }
     let roles = route.data['roles'] as Array<string>;
     user = JSON.parse(user);
     console.log('user', user);

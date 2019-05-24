@@ -42,8 +42,27 @@ export class PedidoService {
       );
   }
 
+  public async getAllPedidosByUser(nome: string) {
+    return this.afs.collection(this.PATH, ref => ref.where('comprador', '==', nome))
+      .snapshotChanges()
+      .pipe(
+        map((actions: any) => {
+          return actions.map(action => {
+            const pedido = new Pedido();
+            pedido.id = action.payload.id;
+            pedido.comprador = action.payload.doc.data().comprador;
+            pedido.itens = action.payload.doc.data().itens;
+            pedido.total = action.payload.doc.data().total;
+            pedido.status = action.payload.doc.data().status;
+            pedido.dtCompra = action.payload.doc.data().dtCompra;
+            return pedido;
+          });
+        })
+      );
+  }
+
   public async getAllPedidos() {
-    return this.afs.collection(this.PATH)
+    return this.afs.collection(this.PATH, ref => ref.orderBy('dtCompra', 'desc'))
       .snapshotChanges()
       .pipe(
         map((actions: any) => {

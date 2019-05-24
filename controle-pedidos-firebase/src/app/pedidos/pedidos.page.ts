@@ -7,6 +7,7 @@ import { Pedido } from '../models/Pedido';
 import { CategoriaService } from '../services/categoria.service';
 import { PedidoService } from '../services/pedido.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { UsuarioService } from '../services/usuario.service';
 
 @Component({
   selector: 'app-pedidos',
@@ -23,8 +24,10 @@ export class PedidosPage implements OnInit {
     private categoriaService: CategoriaService,
     private pedidoService: PedidoService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
-  ) { }
+    private activatedRoute: ActivatedRoute,
+    private usuarioService: UsuarioService
+  ) {
+  }
 
   ngOnInit() {
     this.categorias$ = this.categoriaService.getAll();

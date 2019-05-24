@@ -7,14 +7,14 @@
       </ion-card-header>
       <ion-select (ionChange)="onChangeSituacaoPedido(pedido.id, $event.target.value)">
         <ion-select-option selected>Alterar Situação do Pedido</ion-select-option>
-        <ion-select-option *ngIf="user === 'admin' && pedido.status === 'Registrado'" value="Confirmado">Confirmar
+        <ion-select-option *ngIf="user === 'admin'" value="Confirmado">Confirmar
           Pedido</ion-select-option>
-        <ion-select-option value="Em Preparação" *ngIf="pedido.status === 'Confirmado'">Preparar Pedido
+        <ion-select-option value="Em Preparação">Preparar Pedido
         </ion-select-option>
-        <ion-select-option value="Pronto" *ngIf="pedido.status === 'Em Preparação'">Pedido Pronto</ion-select-option>
-        <ion-select-option *ngIf="user === 'admin' && pedido.status === 'Pronto'" value="Em entrega">Entregar Pedido
+        <ion-select-option value="Pronto">Pedido Pronto</ion-select-option>
+        <ion-select-option *ngIf="user === 'admin'" value="Em entrega">Entregar Pedido
         </ion-select-option>
-        <ion-select-option *ngIf="user === 'admin' && pedido.status === 'Em entrega'" value="Finalizado">Finalizar
+        <ion-select-option *ngIf="user === 'admin'" value="Finalizado">Finalizar
           Pedido</ion-select-option>
         <ion-select-option *ngIf="user === 'admin'" value="Cancelado">Cancelar Pedido</ion-select-option>
       </ion-select>

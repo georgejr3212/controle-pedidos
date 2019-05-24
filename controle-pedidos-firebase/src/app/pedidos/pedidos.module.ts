@@ -8,6 +8,7 @@ import { ListaPedidosComponent } from './lista-pedidos/lista-pedidos.component';
 import { PedidosPage } from './pedidos.page';
 import { StatusPedidoComponent } from './status-pedido/status-pedido.component';
 import { AuthGuard } from '../utils/auth.guard';
+import { MeusPedidosComponent } from './meus-pedidos/meus-pedidos.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,12 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: { roles: ['admin', 'cliente'] },
     component: StatusPedidoComponent
+  },
+  {
+    path: 'meus-pedidos',
+    canActivate: [AuthGuard],
+    data: { roles: ['admin', 'cliente'] },
+    component: MeusPedidosComponent
   }
 
 ];
@@ -38,6 +45,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes),
   ],
-  declarations: [PedidosPage, StatusPedidoComponent, ListaPedidosComponent]
+  declarations: [PedidosPage, StatusPedidoComponent, ListaPedidosComponent, MeusPedidosComponent]
 })
 export class PedidosPageModule { }

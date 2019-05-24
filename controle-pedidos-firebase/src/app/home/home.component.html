@@ -1,0 +1,37 @@
+<ion-app>
+  <ion-header>
+    <ion-toolbar color="secondary">
+      <ion-buttons slot="secondary">
+        <ion-menu-toggle>
+          <ion-button>
+            <ion-icon slot="icon-only" name="menu"></ion-icon>
+          </ion-button>
+        </ion-menu-toggle>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-split-pane contentId="menu-content">
+
+    <ion-menu side="start" menuId="custom">
+      <ion-header>
+        <ion-toolbar color="tertiary">
+          <ion-title>Custom Menu</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-list>
+          <ion-item [routerLink]="['/itens']" *ngIf="perfil === 'admin'">Itens</ion-item>
+          <ion-item [routerLink]="['/categorias']" *ngIf="perfil === 'admin'">Categorias</ion-item>
+          <ion-item [routerLink]="['/pedidos/montar-pedido']" *ngIf="perfil === 'admin' || perfil === 'cliente'">Montar
+            Pedido</ion-item>
+          <ion-item [routerLink]="['/pedidos/lista-pedidos']" *ngIf="perfil === 'admin' || perfil === 'operador'">Lista
+            de Pedidos</ion-item>
+          <ion-item [routerLink]="['/pedidos/meus-pedidos']" *ngIf="perfil === 'admin' || perfil === 'cliente'">Meus
+            Pedidos</ion-item>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+
+    <ion-router-outlet main id="menu-content"></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>

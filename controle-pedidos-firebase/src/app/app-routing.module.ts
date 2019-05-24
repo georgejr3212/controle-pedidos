@@ -1,19 +1,38 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './utils/auth.guard';
+import { HomeComponent } from './home/home.component';
 
 // import { AuthGuard } from './utils/auth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', redirectTo: 'itens', pathMatch: 'full' },
   {
-    path: 'home',
-    loadChildren: './home/home.module#HomePageModule'
+    path: '',
+    component: HomeComponent,
+    children: [
+      {
+        path: 'itens',
+        canActivate: [AuthGuard],
+        data: { roles: ['admin'] },
+        loadChildren: './itens/itens.module#ItensPageModule'
+      },
+      {
+        path: 'categorias',
+        canActivate: [AuthGuard],
+        data: { roles: ['admin'] },
+        loadChildren: './categorias/categorias.module#CategoriasPageModule'
+      },
+      {
+        path: 'pedidos',
+        loadChildren: './pedidos/pedidos.module#PedidosPageModule'
+      },
+    ]
   },
-  { path: 'itens', canActivate: [AuthGuard], data: { roles: ['admin'] }, loadChildren: './itens/itens.module#ItensPageModule' },
-  { path: 'categorias', canActivate: [AuthGuard], data: { roles: ['admin'] }, loadChildren: './categorias/categorias.module#CategoriasPageModule' },
-  { path: 'pedidos', loadChildren: './pedidos/pedidos.module#PedidosPageModule' },
-  { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
+  {
+    path: 'login',
+    loadChildren: './login/login.module#LoginPageModule'
+  },
 ];
 
 @NgModule({

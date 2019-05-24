@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Usuario } from '../models/Usuario';
@@ -97,6 +97,7 @@ export class UsuarioService {
         })
       );
   }
+
   /*
    * Remove as usuarios concluídas
    */

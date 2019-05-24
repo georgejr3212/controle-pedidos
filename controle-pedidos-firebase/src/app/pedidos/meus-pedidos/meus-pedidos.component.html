@@ -1,0 +1,27 @@
+<ion-content padding>
+  <div class="form-content">
+    <ion-card color="tertiary" *ngFor="let pedido of (pedidos$ | async)">
+      <ion-card-header>
+        <ion-card-subtitle>Detalhes do Pedido</ion-card-subtitle>
+        <ion-card-subtitle>Comprador: {{ pedido?.comprador }}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-header>
+          <ion-label class="font-size-12">Status do Pedido</ion-label>
+          {{ pedido?.status.toUpperCase() }}
+        </ion-header>
+
+        <ion-item lines="none" *ngFor="let item of pedido?.itens">
+          <p class="font-size-12">{{ item?.descricao }} : {{ item?.preco | currency: 'BRL ':true }} : Qtd
+            {{ item?.qtd }}</p>
+        </ion-item>
+
+        <ion-chip style="margin-top: 20px;">
+          <ion-label style="color: white">Total {{ pedido?.total | currency: 'BRL ':true }}</ion-label>
+        </ion-chip>
+
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
